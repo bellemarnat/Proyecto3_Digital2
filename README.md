@@ -28,10 +28,9 @@ En la función `presionBoton()`, se adquiere la lectura cruda del sensor LM35 y 
 
 ## Configuración
 
-Una vez configurados estos parámetros, el microcontrolador se conectará a Adafruit IO y podrás visualizar y controlar el sistema de monitoreo de temperatura desde tu cuenta.
 
 ## Notas
 
-Este proyecto es un ejemplo de cómo se puede implementar un sistema de monitoreo de temperatura utilizando componentes electrónicos comunes y un microcontrolador ESP32 con framework de Arduino. Las fórmulas de conversión, el control del servo y los LEDs, así como la visualización en el display de 7 segmentos, son elementos clave que permiten lograr una implementación efectiva de este sistema.
+
 
 Este código y proyecto fueron desarrollados por Isabelle Marnat como parte de mi proyecto de Electronica Digital 2. 
