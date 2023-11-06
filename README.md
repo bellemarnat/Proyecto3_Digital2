@@ -1,4 +1,4 @@
-### Proyecto #3 – I2C y NeoPixel
+# Proyecto #3 – I2C y NeoPixel
 
 Este proyecto tiene como objetivo que los estudiantes experimenten con los microcontroladores TIVA C y ESP32 para desarrollar una aplicación que utilice la comunicación I2C y el led RGB NeoPixel.
 
