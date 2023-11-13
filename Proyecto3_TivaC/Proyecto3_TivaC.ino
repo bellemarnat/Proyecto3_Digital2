@@ -183,24 +183,24 @@ void loop() {
             noTone(B_PIN);
 
             // Imprimir los valores en la pantalla LCD
-            LCD_Clear(0x421b); // Limpia la pantalla antes de imprimir nuevos datos
-            LCD_Print("Rotacion(rad/s):", 10, 20, 2, 0xffff, 0x421b);
-            LCD_Print("X: ", 10, 50, 2, 0xffff, 0x421b);
-            LCD_Print(strRotX, 60, 50, 2, 0xffff, 0x421b);
-            LCD_Print("Y: ", 10, 70, 2, 0xffff, 0x421b);
-            LCD_Print(strRotY, 60, 70, 2, 0xffff, 0x421b);
-            LCD_Print("Z: ", 10, 90, 2, 0xffff, 0x421b);
-            LCD_Print(strRotZ, 60, 90, 2, 0xffff, 0x421b);    
+            LCD_Clear(0x0000); // Limpia la pantalla antes de imprimir nuevos datos
+            LCD_Print("Rotacion(rad/s):", 10, 20, 2, 0x07FF, 0x0000);
+            LCD_Print("X: ", 10, 50, 2, 0x07E0, 0x0000);
+            LCD_Print(strRotX, 60, 50, 2, 0xffff, 0x0000);
+            LCD_Print("Y: ", 10, 70, 2, 0x07E0, 0x0000);
+            LCD_Print(strRotY, 60, 70, 2, 0xffff, 0x0000);
+            LCD_Print("Z: ", 10, 90, 2, 0x07E0, 0x0000);
+            LCD_Print(strRotZ, 60, 90, 2, 0xffff, 0x0000);    
             //LCD_Bitmap(240, 10, 60, 77, giro);
 
                     
-            LCD_Print("Aceleracion(m/s^2): ", 10, 120, 2, 0xffff, 0x421b);
-            LCD_Print("X: ", 10, 150, 2, 0xffff, 0x421b);
-            LCD_Print(strAcelX, 60, 150, 2, 0xffff, 0x421b);
-            LCD_Print("Y: ", 10, 170, 2, 0xffff, 0x421b);
-            LCD_Print(strAcelY, 60, 170, 2, 0xffff, 0x421b);
-            LCD_Print("Z: ", 10, 190, 2, 0xffff, 0x421b);
-            LCD_Print(strAcelZ, 60, 190, 2, 0xffff, 0x421b);
+            LCD_Print("Aceleracion(m/s^2): ", 10, 120, 2, 0x07FF, 0x0000);
+            LCD_Print("X: ", 10, 150, 2, 0x07E0, 0x0000);
+            LCD_Print(strAcelX, 60, 150, 2, 0xffff, 0x0000);
+            LCD_Print("Y: ", 10, 170, 2, 0x07E0, 0x0000);
+            LCD_Print(strAcelY, 60, 170, 2, 0xffff, 0x0000);
+            LCD_Print("Z: ", 10, 190, 2, 0x07E0, 0x0000);
+            LCD_Print(strAcelZ, 60, 190, 2, 0xffff, 0x0000);
 
             delay(500);
             Serial2.print('g'); // Datos recibidos e impresos correctamente - NeoPixel Verde
