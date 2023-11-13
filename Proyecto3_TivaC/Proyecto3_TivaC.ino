@@ -183,7 +183,6 @@ void loop() {
             tone(B_PIN, 500, 500);
             delay(200);
             noTone(B_PIN);
-
             // Imprimir los valores en la pantalla LCD
             LCD_Clear(0x0000); // Limpia la pantalla antes de imprimir nuevos datos
             LCD_Print("Rotacion(rad/s):", 10, 20, 2, 0x07FF, 0x0000);
@@ -205,7 +204,6 @@ void loop() {
             LCD_Print(strAcelZ, 60, 190, 2, 0xffff, 0x0000);
             LCD_Bitmap(200, 150, 60, 60, acel);
 
-
             delay(500);
             Serial2.print('g'); // Datos recibidos e impresos correctamente - NeoPixel Verde
             } else {
@@ -218,7 +216,7 @@ void loop() {
   }
   ultimoestadoBoton = SW1med;
 
-/*Funcion para el boton de guardado
+//Funcion para el boton de guardado
   if (SW2guard != ultimoestadoBoton2) {
     ultimoTiempoRebote2 = millis();
   }
@@ -227,37 +225,45 @@ void loop() {
     if (SW2guard != estadoBoton2) {
       estadoBoton2 = SW2guard;
 
-      if (SW2guard == 0) {
-        tone(B_PIN, 200, 500);
+      if (estadoBoton2 == LOW) {
+      
+        Serial2.println('a');
+        tone(B_PIN, 1000, 1000);
+        
         myFile = SD.open("datafile.txt", FILE_WRITE);
         if (myFile) {
           myFile.print("Rotacion: ");
           myFile.print("X: ");
-          myFile.print(strRotX);
+          myFile.print(medRotX);
           myFile.print("Y: ");
-          myFile.print(strRotY);
+          myFile.print(medRotY);
           myFile.print("Z: ");
-          myFile.print(strRotZ);
+          myFile.print(medRotZ);
           myFile.println("Aceleracion: "); // Guarda ambos valores separados por una coma
           myFile.print("X: ");
-          myFile.print(strAcelX);
+          myFile.print(medAcelX);
           myFile.print("Y: ");
-          myFile.print(strAcelY);
+          myFile.print(medAcelY);
           myFile.print("Z: ");
-          myFile.print(strAcelZ);
+          myFile.print(medAcelZ);
+          myFile.close();
+
           Serial.println("Medición guardada");
-          tone(B_PIN, 1000, 1000);
+          Serial2.print('g');
           delay(200);
           
-          myFile.close();
         } else {
+          Serial2.print('r');
+          tone(B_PIN, 200, 500);
+         
           Serial.println("Error al escribir en la tarjeta");
         }
       }
     }
-  }
-  ultimoestadoBoton2 = SW2guard;*/
+   }
+ultimoestadoBoton2 = SW2guard;
 }
+
 
 //----------------------- Inicio LCD ----------------------- 
 void LCD_Init(void) {

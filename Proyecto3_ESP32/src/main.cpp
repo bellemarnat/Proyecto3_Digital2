@@ -22,6 +22,8 @@ Isabelle Marnat – 21020
 #define LED_PIN 15
 #define LED_COUNT 16
 
+int boton;
+
 Adafruit_MPU6050 mpu;
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 void colorWipe(uint32_t color, int wait);
@@ -55,12 +57,17 @@ void setup() {
   strip.begin();
   strip.show();            // Apagar todos los píxeles
   strip.setBrightness(50); // Establecer el brillo
-  colorWipe(strip.Color(0, 0, 255), 50); // Azul
+
+  // colorWipe(strip.Color(0, 0, 255), 50); // Azul
 
 }
 
 // ---------------- Void Loop ----------------
 void loop() {
+  if(Serial2.available() > 0){ //Cuando se reciba un dato en el Serial 1
+    boton = Serial2.read(); // Leer este valor y almacenar en variable comando
+  }
+  if(boton == '1'){ // Si comando es igual a 1
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
 
@@ -68,13 +75,13 @@ void loop() {
   Serial.printf("Acceleration X: %.2f, Y: %.2f, Z: %.2f m/s^2, Rotation X: %.2f, Y: %.2f, Z: %.2f rad/s\n",
                 a.acceleration.x, a.acceleration.y, a.acceleration.z,
                 g.gyro.x, g.gyro.y, g.gyro.z);
-                delay(1000);
+  delay(1000);
 
   // Formato de envío: "Acceleration,X,Y,Z,Rotacion,X,Y,Z;"
   Serial2.printf("Acceleration,%.2f,%.2f,%.2f,Rotation,%.2f,%.2f,%.2f;",
                 a.acceleration.x, a.acceleration.y, a.acceleration.z,
                 g.gyro.x, g.gyro.y, g.gyro.z);
-                delay(1000);
-                
-  colorWipe(strip.Color(0, 255, 0), 50); // Verde
+  delay(1000);
+  boton = 0;
+  }
 }
