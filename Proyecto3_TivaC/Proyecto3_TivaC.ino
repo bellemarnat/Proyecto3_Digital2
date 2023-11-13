@@ -185,7 +185,10 @@ void loop() {
             LCD_Print("Y: ", 10, 70, 2, 0xffff, 0x421b);
             LCD_Print(strRotY, 60, 70, 2, 0xffff, 0x421b);
             LCD_Print("Z: ", 10, 90, 2, 0xffff, 0x421b);
-            LCD_Print(strRotZ, 60, 90, 2, 0xffff, 0x421b);            
+            LCD_Print(strRotZ, 60, 90, 2, 0xffff, 0x421b);    
+            //LCD_Bitmap(240, 10, 60, 77, giro);
+
+                    
             LCD_Print("Aceleracion(m/s^2): ", 10, 120, 2, 0xffff, 0x421b);
             LCD_Print("X: ", 10, 150, 2, 0xffff, 0x421b);
             LCD_Print(strAcelX, 60, 150, 2, 0xffff, 0x421b);
@@ -202,7 +205,7 @@ void loop() {
   ultimoestadoBoton = SW1med;
 
 
-//Funcion para el boton de guardado
+/*Funcion para el boton de guardado
   if (SW2guard != ultimoestadoBoton2) {
     ultimoTiempoRebote2 = millis();
   }
@@ -215,14 +218,24 @@ void loop() {
         tone(B_PIN, 200, 500);
         myFile = SD.open("datafile.txt", FILE_WRITE);
         if (myFile) {
-          myFile.print(medRot);
-          myFile.println("," + String(medAcel)); // Guarda ambos valores separados por una coma
-          Serial.println("Medición guardada:");
-          Serial.println("Rotation: " + medRot);
-          Serial.println("Aceleración: " + medAcel);
+          myFile.print("Rotacion: ");
+          myFile.print("X: ");
+          myFile.print(strRotX);
+          myFile.print("Y: ");
+          myFile.print(strRotY);
+          myFile.print("Z: ");
+          myFile.print(strRotZ);
+          myFile.println("Aceleracion: "); // Guarda ambos valores separados por una coma
+          myFile.print("X: ");
+          myFile.print(strAcelX);
+          myFile.print("Y: ");
+          myFile.print(strAcelY);
+          myFile.print("Z: ");
+          myFile.print(strAcelZ);
+          Serial.println("Medición guardada");
           tone(B_PIN, 1000, 1000);
-          
           delay(200);
+          
           myFile.close();
         } else {
           Serial.println("Error al escribir en la tarjeta");
@@ -230,7 +243,7 @@ void loop() {
       }
     }
   }
-  ultimoestadoBoton2 = SW2guard;
+  ultimoestadoBoton2 = SW2guard;*/
 }
 
 //----------------------- Inicio LCD ----------------------- 
@@ -478,7 +491,6 @@ void LCD_Print(String text, int x, int y, int fontSize, int color, int backgroun
   
   char charInput ;
   int cLength = text.length();
-  //Serial.println(cLength,DEC);
   int charDec ;
   int c ;
   int charHex ;
@@ -510,4 +522,63 @@ void LCD_Print(String text, int x, int y, int fontSize, int color, int backgroun
     }
     digitalWrite(LCD_CS, HIGH);
   }
+}
+
+
+//----------------------- Función para dibujar una imagen a partir de un arreglo de colores (Bitmap) Formato (Color 16bit R 5bits G 6bits B 5bits) -----------------------
+void LCD_Bitmap(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned char bitmap[]) {
+  LCD_CMD(0x02c); // write_memory_start
+  digitalWrite(LCD_RS, HIGH);
+  digitalWrite(LCD_CS, LOW);
+
+  unsigned int x2, y2;
+  x2 = x + width;
+  y2 = y + height;
+  SetWindows(x, y, x2 - 1, y2 - 1);
+  unsigned int k = 0;
+  unsigned int i, j;
+
+  for (int i = 0; i < width; i++) {
+    for (int j = 0; j < height; j++) {
+      LCD_DATA(bitmap[k]);
+      LCD_DATA(bitmap[k + 1]);
+      k = k + 2;
+    }
+  }
+  digitalWrite(LCD_CS, HIGH);
+}
+
+// ----------------------- Función para dibujar una imagen sprite - los parámetros columns = número de imagenes en el sprite, index = cual desplegar, flip = darle vuelta -----------------------
+void LCD_Sprite(int x, int y, int width, int height, unsigned char bitmap[], int columns, int index, char flip, char offset) {
+  LCD_CMD(0x02c); // write_memory_start
+  digitalWrite(LCD_RS, HIGH);
+  digitalWrite(LCD_CS, LOW);
+
+  unsigned int x2, y2;
+  x2 =   x + width;
+  y2 =    y + height;
+  SetWindows(x, y, x2 - 1, y2 - 1);
+  int k = 0;
+  int ancho = ((width * columns));
+  if (flip) {
+    for (int j = 0; j < height; j++) {
+      k = (j * (ancho) + index * width - 1 - offset) * 2;
+      k = k + width * 2;
+      for (int i = 0; i < width; i++) {
+        LCD_DATA(bitmap[k]);
+        LCD_DATA(bitmap[k + 1]);
+        k = k - 2;
+      }
+    }
+  } else {
+    for (int j = 0; j < height; j++) {
+      k = (j * (ancho) + index * width + 1 + offset) * 2;
+      for (int i = 0; i < width; i++) {
+        LCD_DATA(bitmap[k]);
+        LCD_DATA(bitmap[k + 1]);
+        k = k + 2;
+      }
+    }
+  }
+  digitalWrite(LCD_CS, HIGH);
 }
