@@ -173,7 +173,7 @@ void loop() {
             String strAcelY = floatToString(medAcelY);
             String strAcelZ = floatToString(medAcelZ);
             
-            tone(B_PIN, 1000, 500);
+            tone(B_PIN, 500, 500);
             delay(200);
             noTone(B_PIN);
             
@@ -185,10 +185,7 @@ void loop() {
             LCD_Print("Y: ", 10, 70, 2, 0xffff, 0x421b);
             LCD_Print(strRotY, 60, 70, 2, 0xffff, 0x421b);
             LCD_Print("Z: ", 10, 90, 2, 0xffff, 0x421b);
-            LCD_Print(strRotZ, 60, 90, 2, 0xffff, 0x421b);
-
-            Serial.println(strAcelX);
-            
+            LCD_Print(strRotZ, 60, 90, 2, 0xffff, 0x421b);            
             LCD_Print("Aceleracion(m/s^2): ", 10, 120, 2, 0xffff, 0x421b);
             LCD_Print("X: ", 10, 150, 2, 0xffff, 0x421b);
             LCD_Print(strAcelX, 60, 150, 2, 0xffff, 0x421b);
@@ -203,87 +200,9 @@ void loop() {
     }
   }
   ultimoestadoBoton = SW1med;
-}
-
-/*void loop() {
-  SW1med = digitalRead(SW1_PIN);
-  SW2guard = digitalRead(SW2_PIN);
-
-  if (SW1med != ultimoestadoBoton) {
-    ultimoTiempoRebote = millis();
-  }
-
-  if ((millis() - ultimoTiempoRebote) > retrasoRebote) {
-    if (SW1med != estadoBoton) {
-      estadoBoton = SW1med;
-
-      if (estadoBoton == LOW) {
-        Serial.println("Solicitando medición");
-        Serial2.print("on");
-        delay(1000); // Espera un momento para asegurar que los datos se envíen completamente
-        String response = Serial2.readStringUntil('\n'); // Leer la respuesta hasta el salto de línea
-        Serial.println("Respuesta recibida: " + response);  // Agrega esta línea
-
-        if (response.length() > 0) {
-          // Analizar la respuesta para obtener los valores
-          int indexComa = response.indexOf(',');
-          if (indexComa != -1) {
-            // Extraer valores de giroscopio y aceleración
-            String giroAcelString = response.substring(indexComa + 1);
-            int indexSegundaComa = giroAcelString.indexOf(',');
-            if (indexSegundaComa != -1) {
-              String medRotString = giroAcelString.substring(0, indexSegundaComa);
-              String medAcelString = giroAcelString.substring(indexSegundaComa + 1);
-              
-              medRot = medRotString.toFloat();
-              medAcel = medAcelString.toFloat();
-
-              Serial.print("Medición de giroscopio: ");
-              Serial.print(medRot);
-              Serial.print(" rad/s");
-              Serial.print("  ");
-              Serial.print("Medición de aceleración: ");
-              Serial.print(medAcel);
-              Serial.println(" m/s^2");
-
-              // Resto del código para procesar los datos
-              tone(B_PIN, 1000, 500);
-              delay(200);
-              noTone(B_PIN);
-              
-              LCD_Print("Rotation: ", 10, 20, 2, 0xffff, 0x421b);
-              String datoGiro = String(medRot);
-              LCD_Print(datoGiro, 10, 50, 2, 0xffff, 0x421b);
-
-              LCD_Print("Aceleracion: ", 10, 120, 2, 0xffff, 0x421b);
-              String datoAcel = String(medAcel);
-              LCD_Print(datoAcel, 10, 150, 2, 0xffff, 0x421b);
-              delay(100);
-
-//              String datoGiro = "Rotation: " + String(medRot);
-//              LCD_Print(datoGiro, 20, 90, 2, 0xffff, 0x421b);
-//              delay(1000);
-//
-//              String datoAcel = "Aceleracion: " + String(medAcel);
-//              LCD_Print(datoAcel, 20, 150, 2, 0xffff, 0x421b);
-//              delay(1000);
-            } else {
-              Serial.println("Respuesta incorrecta");
-            }
-          } else {
-            Serial.println("Respuesta incorrecta");
-          }
-        } else {
-          Serial.println("Dato no recibido");
-        }
-      }
-    }
-  }
-  ultimoestadoBoton = SW1med;
-}*/
 
 
-/* Funcion para el boton de guardado
+//Funcion para el boton de guardado
   if (SW2guard != ultimoestadoBoton2) {
     ultimoTiempoRebote2 = millis();
   }
@@ -301,7 +220,7 @@ void loop() {
           Serial.println("Medición guardada:");
           Serial.println("Rotation: " + medRot);
           Serial.println("Aceleración: " + medAcel);
-          tone(B_PIN, 200, 500);
+          tone(B_PIN, 1000, 1000);
           
           delay(200);
           myFile.close();
@@ -312,24 +231,7 @@ void loop() {
     }
   }
   ultimoestadoBoton2 = SW2guard;
-}*/
-
-
-//----------------------- SD ----------------------- 
-void saveDataToSD(void) {
-  myFile = SD.open("dataFile.txt", FILE_WRITE); // Abrir Archivo de datos como Escritura
-    myFile.print("Rotation: ");
-    myFile.print(medRotX);
-    myFile.print(medRotY);
-    myFile.print(medRotZ);
-    myFile.println(" rad/s ");
-    myFile.print("Aceleración: ");
-    myFile.print(medAcelX);
-    myFile.print(medAcelY);
-    myFile.print(medAcelZ);
-    myFile.println(" m/s^2 ");
-    myFile.close();
-} 
+}
 
 //----------------------- Inicio LCD ----------------------- 
 void LCD_Init(void) {
