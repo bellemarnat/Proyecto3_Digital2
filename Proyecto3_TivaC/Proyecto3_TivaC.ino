@@ -126,6 +126,7 @@ void loop() {
         delay(100);
         
         Serial.println("Solicitando medición");
+        delay(1000);
         Serial2.print("on");
         String response = Serial2.readStringUntil('\n'); // Leer la respuesta hasta el salto de línea
         Serial.println("Respuesta recibida: " + response);
