@@ -82,8 +82,10 @@ extern uint8_t fondo[];
 void setup() {
   // LCD TFT
   SysCtlClockSet(SYSCTL_SYSDIV_2_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
+  
   Serial.begin(115200);
   Serial2.begin(115200);
+  
   GPIOPadConfigSet(GPIO_PORTB_BASE, 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, GPIO_STRENGTH_8MA, GPIO_PIN_TYPE_STD_WPU);
   SPI.setModule(0);
   pinMode(SW1_PIN, INPUT_PULLUP);
@@ -120,9 +122,11 @@ void loop() {
       estadoBoton = SW1med;
 
       if (estadoBoton == LOW) {
+        Serial2.print('b');
+        delay(100);
+        
         Serial.println("Solicitando medición");
         Serial2.print("on");
-        delay(1000); // Espera un momento para asegurar que los datos se envíen completamente
         String response = Serial2.readStringUntil('\n'); // Leer la respuesta hasta el salto de línea
         Serial.println("Respuesta recibida: " + response);
 
@@ -176,7 +180,7 @@ void loop() {
             tone(B_PIN, 500, 500);
             delay(200);
             noTone(B_PIN);
-            
+
             // Imprimir los valores en la pantalla LCD
             LCD_Clear(0x421b); // Limpia la pantalla antes de imprimir nuevos datos
             LCD_Print("Rotacion(rad/s):", 10, 20, 2, 0xffff, 0x421b);
@@ -196,14 +200,18 @@ void loop() {
             LCD_Print(strAcelY, 60, 170, 2, 0xffff, 0x421b);
             LCD_Print("Z: ", 10, 190, 2, 0xffff, 0x421b);
             LCD_Print(strAcelZ, 60, 190, 2, 0xffff, 0x421b);
-        } else {
-          Serial.println("Dato no recibido");
-        }
+
+            delay(500);
+            Serial2.print('g'); // Datos recibidos e impresos correctamente - NeoPixel Verde
+            } else {
+              // Si hubo un error
+              Serial.print("Dato no recibido");
+              Serial2.print('r'); // Error en la recepción o procesamiento de datos - NeoPixel Rojo
+         }
       }
     }
   }
   ultimoestadoBoton = SW1med;
-
 
 /*Funcion para el boton de guardado
   if (SW2guard != ultimoestadoBoton2) {
