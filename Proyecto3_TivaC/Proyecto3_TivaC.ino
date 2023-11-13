@@ -76,7 +76,9 @@ void LCD_Print(String text, int x, int y, int fontSize, int color, int backgroun
 void LCD_Bitmap(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned char bitmap[]);
 void LCD_Sprite(int x, int y, int width, int height, unsigned char bitmap[],int columns, int index, char flip, char offset);
 
-extern uint8_t fondo[];
+extern uint8_t giro1[];
+extern uint8_t acel[];
+
 
 //----------------------- Void Setup ----------------------- 
 void setup() {
@@ -191,7 +193,7 @@ void loop() {
             LCD_Print(strRotY, 60, 70, 2, 0xffff, 0x0000);
             LCD_Print("Z: ", 10, 90, 2, 0x07E0, 0x0000);
             LCD_Print(strRotZ, 60, 90, 2, 0xffff, 0x0000);    
-            //LCD_Bitmap(240, 10, 60, 77, giro);
+            LCD_Bitmap(200, 50, 60, 60, giro1);
 
                     
             LCD_Print("Aceleracion(m/s^2): ", 10, 120, 2, 0x07FF, 0x0000);
@@ -201,6 +203,8 @@ void loop() {
             LCD_Print(strAcelY, 60, 170, 2, 0xffff, 0x0000);
             LCD_Print("Z: ", 10, 190, 2, 0x07E0, 0x0000);
             LCD_Print(strAcelZ, 60, 190, 2, 0xffff, 0x0000);
+            LCD_Bitmap(200, 150, 60, 60, acel);
+
 
             delay(500);
             Serial2.print('g'); // Datos recibidos e impresos correctamente - NeoPixel Verde
