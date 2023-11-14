@@ -127,26 +127,51 @@ void loop() {
         Serial2.write('n');
         Serial2.write('d');
         delay(50);
-
         Serial.println("Solicitando medición");
         delay(1000);
-        String response = Serial2.readStringUntil('\n'); // Leer la respuesta hasta el salto de línea
+        String response = Serial2.readStringUntil('\n');
         Serial.println("Respuesta recibida: " + response);
 
-        if (response.startsWith("Acceleration,")) {
-          float acelX, acelY, acelZ, rotX, rotY, rotZ;
-
+        if (response.length() > 0) {
           sscanf(response.c_str(),
                  "Acceleration,%f,%f,%f,Rotation,%f,%f,%f",
-                 &acelX, &acelY, &acelZ, &rotX, &rotY, &rotZ);
+                 &medAcelX, &medAcelY, &medAcelZ, &medRotX, &medRotY, &medRotZ);
 
-          // Convertir los valores a String
-          String strRotX = String(rotX);
-          String strRotY = String(rotY);
-          String strRotZ = String(rotZ);
-          String strAcelX = String(acelX);
-          String strAcelY = String(acelY);
-          String strAcelZ = String(acelZ);
+          int startIndex, endIndex;
+
+          // Convertir los valores numéricos a String
+          String strAcelX, strAcelY, strAcelZ, strRotX, strRotY, strRotZ;
+
+          // Extraer y convertir aceleración X
+          startIndex = response.indexOf("Acceleration,") + 13;
+          endIndex = response.indexOf(",", startIndex);
+          strAcelX = response.substring(startIndex, endIndex);
+
+          // Extraer y convertir aceleración Y
+          startIndex = endIndex + 1;
+          endIndex = response.indexOf(",", startIndex);
+          strAcelY = response.substring(startIndex, endIndex);
+
+          // Extraer y convertir aceleración Z
+          startIndex = endIndex + 1;
+          endIndex = response.indexOf(",", startIndex);
+          strAcelZ = response.substring(startIndex, endIndex);
+
+          // Extraer y convertir rotación X
+          startIndex = response.indexOf("Rotation,") + 9;
+          endIndex = response.indexOf(",", startIndex);
+          strRotX = response.substring(startIndex, endIndex);
+
+          // Extraer y convertir rotación Y
+          startIndex = endIndex + 1;
+          endIndex = response.indexOf(",", startIndex);
+          strRotY = response.substring(startIndex, endIndex);
+
+          // Extraer y convertir rotación Z
+          startIndex = endIndex + 1;
+          endIndex = response.length(); // Asegurarse de llegar al final de la cadena
+          strRotZ = response.substring(startIndex);
+
 
           tone(B_PIN, 500, 500);
           delay(100);
@@ -185,7 +210,6 @@ void loop() {
   }
   ultimoestadoBoton = SW1med;
 
-
   //Funcion para el boton de guardado
   if (SW2guard != ultimoestadoBoton2) {
     ultimoTiempoRebote2 = millis();
@@ -223,10 +247,10 @@ void loop() {
           delay(200);
 
         } else {
+
           Serial2.print('r');
           delay(100);
           tone(B_PIN, 200, 500);
-
           Serial.println("Error al escribir en la tarjeta");
         }
       }
