@@ -227,7 +227,7 @@ void loop() {
         Serial2.println('a');
         tone(B_PIN, 1000, 1000);
 
-        myFile = SD.open("datafile.txt", FILE_WRITE);
+        myFile = SD.open("datalog.txt", FILE_WRITE);
         if (myFile) {
           myFile.print("Rotacion: ");
           myFile.print("X: ");
