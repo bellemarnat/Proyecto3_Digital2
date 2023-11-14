@@ -108,6 +108,7 @@ void setup() {
     return;
   }
   Serial.println("Initialization done");
+  Serial2.print('b');
 }
 
 // ----------------------- Void Loop -----------------------
@@ -124,7 +125,8 @@ void loop() {
       estadoBoton = SW1med;
 
       if (estadoBoton == LOW) {
-        Serial2.write('n');
+        Serial2.print('b');
+        delay(1000);
         Serial2.write('d');
         delay(50);
         Serial.println("Solicitando medición");
@@ -198,8 +200,9 @@ void loop() {
           LCD_Print(strAcelZ, 60, 190, 2, 0xffff, 0x0000);
           LCD_Bitmap(200, 150, 60, 60, acel);
 
-          delay(500);
+          delay(100);
           Serial2.print('g'); // Datos recibidos e impresos correctamente - NeoPixel Verde
+          
         } else {
           // Si hubo un error
           Serial.print("Dato no recibido");
