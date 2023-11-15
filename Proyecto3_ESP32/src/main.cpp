@@ -61,7 +61,6 @@ void setup()
   strip.begin();
   strip.show();            // Apagar todos los píxeles
   strip.setBrightness(50); // Establecer el brillo
-  // colorWipe(strip.Color(0, 0, 255), 50); // Azul
 }
 
 // ---------------- Void Loop ----------------
@@ -90,12 +89,11 @@ void loop()
     case 'r':
       colorWipe(strip.Color(255, 0, 0), 50); // Rojo para error
       break;
-    // Puedes mantener o eliminar el caso 'b', según tus necesidades
     case 'b':
       colorWipe(strip.Color(0, 0, 255), 50); // Azul para standby
       break;
     case 'n':
-      colorWipe(strip.Color(0, 0, 0), 0); // Azul para standby
+      colorWipe(strip.Color(0, 0, 0), 0); // Apagado/reinicio
       break;
     }
   }
