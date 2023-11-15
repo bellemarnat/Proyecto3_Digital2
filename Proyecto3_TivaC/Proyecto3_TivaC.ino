@@ -126,6 +126,9 @@ void loop() {
 
       if (estadoBoton == LOW) {
         Serial2.print('b');
+        LCD_Clear(0x0000); // Limpia la pantalla antes de imprimir nuevos datos
+        LCD_Print("REALIZANDO", 80, 100, 2, 0x001F, 0x0000);
+        LCD_Print("MEDICION", 100, 120, 2, 0x001F, 0x0000);
         delay(1000);
         Serial2.write('d');
         delay(50);
@@ -250,7 +253,11 @@ void loop() {
           delay(200);
 
         } else {
-
+          LCD_Clear(0x0000); // Limpia la pantalla antes de imprimir nuevos datos
+          LCD_Print("ERROR", 120, 70, 2, 0xF800, 0x0000);
+          LCD_Print("NO SE PUDO", 90, 100, 2, 0xF800, 0x0000);
+          LCD_Print("GUARDAR EN", 85, 130, 2, 0xF800, 0x0000);
+          LCD_Print("LA SD", 130, 160, 2, 0xF800, 0x0000);
           Serial2.print('r');
           delay(100);
           tone(B_PIN, 200, 500);
