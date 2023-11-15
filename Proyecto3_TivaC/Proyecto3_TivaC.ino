@@ -55,12 +55,12 @@ File myFile;
 int estadoBoton = HIGH; // Estado del botón en la última lectura
 int ultimoestadoBoton = HIGH; // Estado del botón en la última lectura
 unsigned long ultimoTiempoRebote = 0; // Tiempo de la última transición del botón
-unsigned long retrasoRebote = 50; // Tiempo de rebote (ajústalo según tus necesidades)
+unsigned long retrasoRebote = 50; // Tiempo de rebote 
 
 int estadoBoton2 = HIGH; // Estado del botón en la última lectura
 int ultimoestadoBoton2 = HIGH; // Estado del botón en la última lectura
 unsigned long ultimoTiempoRebote2 = 0; // Tiempo de la última transición del botón
-unsigned long retrasoRebote2 = 50; // Tiempo de rebote (ajústalo según tus necesidades)
+unsigned long retrasoRebote2 = 50; // Tiempo de rebote 
 
 //----------------------- Prototipos de funciones -----------------------
 void LCD_Init(void);
@@ -174,7 +174,7 @@ void loop() {
 
           // Extraer y convertir rotación Z
           startIndex = endIndex + 1;
-          endIndex = response.length(); // Asegurarse de llegar al final de la cadena
+          endIndex = response.length(); // Asegurarse que llegue al final de la cadena
           strRotZ = response.substring(startIndex);
 
 
@@ -216,7 +216,7 @@ void loop() {
   }
   ultimoestadoBoton = SW1med;
 
-  //Funcion para el boton de guardado
+  // Funcion para el boton de guardado
   if (SW2guard != ultimoestadoBoton2) {
     ultimoTiempoRebote2 = millis();
   }
@@ -239,7 +239,7 @@ void loop() {
           myFile.print(medRotY);
           myFile.print("Z: ");
           myFile.print(medRotZ);
-          myFile.println("Aceleracion: "); // Guarda ambos valores separados por una coma
+          myFile.println("Aceleracion: ");
           myFile.print("X: ");
           myFile.print(medAcelX);
           myFile.print("Y: ");
